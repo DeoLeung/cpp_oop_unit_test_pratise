@@ -58,6 +58,12 @@ private:
     return str_first == str_second;
   }
 
+  friend bool operator!= (const StrShift &first, const StrShift &second) {
+    string str_first(first.c_str());
+    string str_second(second.c_str());
+    return str_first != str_second;
+  }
+
   string _str;
   int _head;
 };

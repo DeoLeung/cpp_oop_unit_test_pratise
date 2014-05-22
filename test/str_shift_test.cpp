@@ -45,3 +45,8 @@ void StrShiftTest::test_equal() {
   str2 << 1;
   CPPUNIT_ASSERT(str2 == *_str);
 }
+
+void StrShiftTest::test_not_equal() {
+  StrShift str2("eoleungd");
+  CPPUNIT_ASSERT(str2 != *_str);
+}
