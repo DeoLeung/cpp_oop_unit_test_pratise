@@ -25,8 +25,8 @@ public:
   ChangeMachine();
   ~ChangeMachine();
   int MakeChange(int total_change) const;
-  bool set_denominations(vector<int> &denominations);
-  bool get_denominations();
+  bool set_denominations(const vector<int> &denominations);
+  const vector<int> &get_denominations();
 private:
   vector<int> *_denominations;
 };

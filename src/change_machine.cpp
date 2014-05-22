@@ -1,6 +1,8 @@
 #include "change_algorithm.h"
 #include "change_machine.h"
 
+#include <algorithm>
+
 ChangeMachine::ChangeMachine() {
   // Default bill values we have.
   _denominations = new vector<int>({100, 50, 20, 10, 5, 1});
@@ -25,8 +27,17 @@ int ChangeMachine::MakeChange(int total_change) const {
   return total;
 }
 
-bool ChangeMachine::set_denominations(vector<int>& denominations) {
+bool ChangeMachine::set_denominations(const vector<int>& denominations) {
+  if (denominations.empty()) {
+    return false;
+  }
   (*_denominations) = denominations;
+  sort(_denominations->begin(), _denominations->end(), greater<int>());
+  return true;
+}
+
+const vector<int> &ChangeMachine::get_denominations() {
+  return *_denominations;
 }
 
 ChangeMachine::~ChangeMachine() {

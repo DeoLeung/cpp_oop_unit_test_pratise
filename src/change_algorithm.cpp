@@ -10,7 +10,7 @@ vector<int> *ChangeAlgorithm::minimum_bills_naive(
   }
   // Counts the number of bills of each bill value.
   vector<int> *bills = new vector<int>(values.size(), 0);
-  for (int i = 0; i < values.size(); ++i) {
+  for (unsigned int i = 0; i < values.size(); ++i) {
     if (values[i] > change) {
       // unable to give change on a bill with bigger value.
       continue;

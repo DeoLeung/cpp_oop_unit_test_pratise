@@ -1,38 +1,41 @@
 /*
- * File:   change_alrogithm_test.h
+ * File:   change_machine_test.h
  * Author: Deo Zhanzhao Liang <liangzhanzhao1985@gmail.com>
  *
  * Created on 22-May-2014, 10:18:24
  */
 
-#ifndef CHANGE_ALROGITHM_TEST_H
-#define	CHANGE_ALROGITHM_TEST_H
+#ifndef CHANGE_MACHINE_TEST_H
+#define	CHANGE_MACHINE_TEST_H
 
-#include <vector>
 #include <cppunit/extensions/HelperMacros.h>
 
-using namespace std;
+#include "../src/change_machine.h"
 
-class change_alrogithm_test : public CPPUNIT_NS::TestFixture {
-  CPPUNIT_TEST_SUITE(change_alrogithm_test);
+class ChangeMachineTest: public CPPUNIT_NS::TestFixture {
+  CPPUNIT_TEST_SUITE(ChangeMachineTest);
 
-  CPPUNIT_TEST(test_minimum_bills_naive);
+  CPPUNIT_TEST(test_ChangeMachine);
+  CPPUNIT_TEST(test_MakeChange);
+  CPPUNIT_TEST(test_set_denominations);
 
   CPPUNIT_TEST_SUITE_END();
 
 public:
-  change_alrogithm_test();
-  virtual ~change_alrogithm_test();
   void setUp();
   void tearDown();
-  void test_minimum_bills_naive();
 
 private:
-  void _assert_bills(unsigned int change,
-                     const vector<int> *golden,
-                     const vector<int> &values) const;
+  void test_ChangeMachine();
+  void test_MakeChange();
+  void test_set_denominations();
+  void _assert_vectors(const vector<int> &expected,
+                       const vector<int> &actual) const;
+  void _assert_bills(const int bills, const int change) const;
+
+  ChangeMachine *_change_machine;
 
 };
 
-#endif	/* CHANGE_ALROGITHM_TEST_H */
+#endif	/* CHANGE_MACHINE_TEST_H */
 

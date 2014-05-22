@@ -5,88 +5,78 @@
  * Created on 22-May-2014, 10:18:24
  */
 
-#include "change_alrogithm_test.h"
-#include "../src/change_algorithm.h"
+#include "change_machine_test.h"
 
 #include <string>
 #include <utility>
 
 
-CPPUNIT_TEST_SUITE_REGISTRATION(change_alrogithm_test);
+CPPUNIT_TEST_SUITE_REGISTRATION(ChangeMachineTest);
 
-change_alrogithm_test::change_alrogithm_test() {
+void ChangeMachineTest::setUp() {
+  _change_machine = new ChangeMachine();
 }
 
-change_alrogithm_test::~change_alrogithm_test() {
-}
-
-void change_alrogithm_test::setUp() {
-}
-
-void change_alrogithm_test::tearDown() {
-}
-
-void change_alrogithm_test::_assert_bills(unsigned int change,
-                                          const vector<int> *golden,
-                                          const vector<int> &values) const {
-  const vector<int> *result = ChangeAlgorithm::minimum_bills_naive(
-      values, change);
-  string change_str = std::to_string(change);
-  if (!golden) {
-    CPPUNIT_ASSERT_EQUAL_MESSAGE(
-        change_str + " expected no change, but change is given",
-        golden, result);
-  } else if (!result) {
-    CPPUNIT_ASSERT_EQUAL_MESSAGE(
-        change_str + " expected change, but no change is given",
-        golden, result);
-  } else {
-    CPPUNIT_ASSERT_EQUAL_MESSAGE(
-        change_str + " change given has different value set",
-        golden->size(), result->size());
-    for (unsigned int i = 0; i < golden->size(); ++i) {
-      CPPUNIT_ASSERT_EQUAL_MESSAGE(
-          change_str + " change given for bill " + std::to_string(i) + " is different",
-          (*golden)[i], (*result)[i]);
-    }
-  }
-  if (result) {
-    delete result;
-    result = 0;
+void ChangeMachineTest::tearDown() {
+  if (_change_machine) {
+    delete _change_machine;
+    _change_machine = 0;
   }
 }
 
-void change_alrogithm_test::test_minimum_bills_naive() {
-  const vector<int> values = {100, 50, 20, 10, 5, 1};
-  _assert_bills(0, 0, values);
+void ChangeMachineTest::_assert_vectors(const vector<int> &expected,
+                                        const vector<int> &actual) const {
+  CPPUNIT_ASSERT_EQUAL_MESSAGE(
+      "Different vector size",
+      expected.size(), actual.size());
+  for (unsigned int i = 0; i < expected.size(); ++i) {
+    CPPUNIT_ASSERT_EQUAL_MESSAGE(
+        "Vector index " + to_string(i) + " is different",
+        expected[i], actual[i]);
+  }
+}
 
-  vector<int> golden;
+void ChangeMachineTest::test_ChangeMachine() {
+  const vector<int> golden = {100, 50, 20, 10, 5, 1};
+  _assert_vectors(golden, _change_machine->get_denominations());
+}
 
-  golden = {0, 0, 0, 0, 0, 1};
-  _assert_bills(1, &golden, values);
+void ChangeMachineTest::test_set_denominations() {
+  const vector<int> golden = {100, 50, 20, 10, 5, 1};
+  _assert_vectors(golden, _change_machine->get_denominations());
 
-  golden = {0, 0, 0, 0, 0, 2};
-  _assert_bills(2, &golden, values);
+  vector<int> empty_input;
+  CPPUNIT_ASSERT_EQUAL_MESSAGE(
+      "Setting denominations to empty should fail",
+      false, _change_machine->set_denominations(empty_input));
+  // Failure in setting denominations should not affect the original state.
+  _assert_vectors(golden, _change_machine->get_denominations());
 
-  golden = {0, 0, 0, 0, 1, 0};
-  _assert_bills(5, &golden, values);
+  // With valid set denominations the state should be desending order
+  // TODO: remove duplicates.
+  const vector<int> golden_sorted = {4, 3, 2, 2, 1};
+  const vector<int> unsorted_input = {1, 3, 2, 4, 2};
+  _change_machine->set_denominations(unsorted_input);
+  _assert_vectors(golden_sorted, _change_machine->get_denominations());
+}
 
-  golden = {0, 0, 0, 1, 0, 0};
-  _assert_bills(10, &golden, values);
+void ChangeMachineTest::_assert_bills(const int bills, const int change) const {
+  int actual = _change_machine->MakeChange(change);
+  CPPUNIT_ASSERT_EQUAL_MESSAGE(
+      "Bills given is wrong for change " + to_string(change),
+      bills, actual);
+}
 
-  golden = {0, 0, 1, 0, 0, 0};
-  _assert_bills(20, &golden, values);
-
-  golden = {0, 1, 0, 0, 0, 0};
-  _assert_bills(50, &golden, values);
-
-  golden = {1, 0, 0, 0, 0, 0};
-  _assert_bills(100, &golden, values);
-
-  golden = {1, 0, 0, 0, 0, 1};
-  _assert_bills(101, &golden, values);
-
-  golden = {655, 0, 1, 1, 1, 0};
-  _assert_bills(65535, &golden, values);
+void ChangeMachineTest::test_MakeChange() {
+  _assert_bills(-1, 0);
+  _assert_bills(1, 1);
+  _assert_bills(2, 2);
+  _assert_bills(1, 5);
+  _assert_bills(1, 10);
+  _assert_bills(1, 20);
+  _assert_bills(1, 50);
+  _assert_bills(1, 100);
+  _assert_bills(2, 101);
+  _assert_bills(658, 65535);
 }
 
