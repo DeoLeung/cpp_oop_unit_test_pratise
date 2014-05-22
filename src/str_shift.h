@@ -50,16 +50,17 @@ public:
   // move assignment operator
   StrShift &operator= (StrShift &&other);
   const char *c_str() const;
+
 private:
+  friend bool operator== (const StrShift &first, const StrShift &second) {
+    string str_first(first.c_str());
+    string str_second(second.c_str());
+    return str_first == str_second;
+  }
+
   string _str;
   int _head;
 };
-
-bool operator== (const StrShift &first, const StrShift &second) {
-  string str_first(first.c_str());
-  string str_second(second.c_str());
-  return str_first == str_second;
-}
 
 #endif /* STR_SHIFT_H */
 
