@@ -77,6 +77,7 @@ void ChangeMachineTest::test_MakeChange() {
   _assert_bills(1, 50);
   _assert_bills(1, 100);
   _assert_bills(2, 101);
+  _assert_bills(4, 135);
   _assert_bills(658, 65535);
 }
 
