@@ -1,10 +1,6 @@
 /*
- * File:   ChangeAlgorithmTest.cpp
  * Author: Deo Zhanzhao Liang <liangzhanzhao1985@gmail.com>
- *
- * Created on 22-May-2014, 10:18:24
  */
-
 #include "change_algorithm_test.h"
 #include "../src/change_algorithm.h"
 
@@ -15,11 +11,11 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(ChangeAlgorithmTest);
 
 void ChangeAlgorithmTest::_assert_bills(unsigned int change,
-                                          const vector<int> *golden,
-                                          const vector<int> &values) const {
+                                        const vector<int> *golden,
+                                        const vector<int> &values) const {
   const vector<int> *result = ChangeAlgorithm::minimum_bills_naive(
       values, change);
-  string change_str = std::to_string(change);
+  string change_str = to_string(change);
   if (!golden) {
     CPPUNIT_ASSERT_EQUAL_MESSAGE(
         change_str + " expected no change, but change is given",
@@ -34,7 +30,8 @@ void ChangeAlgorithmTest::_assert_bills(unsigned int change,
         golden->size(), result->size());
     for (unsigned int i = 0; i < golden->size(); ++i) {
       CPPUNIT_ASSERT_EQUAL_MESSAGE(
-          change_str + " change given for bill " + std::to_string(i) + " is different",
+          change_str + " change given for bill " + to_string(i) +
+          " is different",
           (*golden)[i], (*result)[i]);
     }
   }
@@ -50,6 +47,7 @@ void ChangeAlgorithmTest::test_minimum_bills_naive() {
 
   vector<int> golden;
 
+  // bills of value.
   golden = {0, 0, 0, 0, 0, 1};
   _assert_bills(1, &golden, values);
 

@@ -19,7 +19,6 @@
 #define	STR_SHIFT_H
 
 #include <string>
-#include <utility>
 
 using namespace std;
 
@@ -27,44 +26,41 @@ class StrShift {
 public:
   // constructor
   StrShift(): _str(), _head(0) {};
-  StrShift(const string &str): _str(str), _head(str.size()) {};
+  StrShift(const string &str): _str(str), _head(0) {};
+  StrShift(const char* str): _str(str), _head(0) {};
 
   // copy constructor
   StrShift(const StrShift &other): _str(other._str), _head(other._head) {};
 
-  // move consstructor
+  // move constructor
   StrShift(StrShift &&other) {
     swap(*this, other);
   };
 
-  friend void swap(StrShift &first, StrShift &second) {
-    using std::swap;
-    swap(first._str, second._str);
-    swap(first._head, second._head);
-  };
-
+  // move the last 'shift' char to the front of represented string.
+  // e.g 'deoleung' << 2, the representing string will be 'ngdeoleu'.
   const char *operator<< (const unsigned int shift);
+  // move the first 'shift' char to the end of represented string.
+  // e.g 'deoleung' >> 2, the representing string will be 'oleungde'.
   const char *operator>> (const unsigned int shift);
+
   // copy assignment operator
   StrShift &operator= (StrShift other);
+  // TODO: solve the "ambiguous overload for ‘operator=’"
   // move assignment operator
-  StrShift &operator= (StrShift &&other);
+  // StrShift &operator= (StrShift &&other);
+
+  // return a c string format of the represented string.
   const char *c_str() const;
 
 private:
-  friend bool operator== (const StrShift &first, const StrShift &second) {
-    string str_first(first.c_str());
-    string str_second(second.c_str());
-    return str_first == str_second;
-  }
+  friend void swap(StrShift &first, StrShift &second);
+  friend bool operator== (const StrShift &first, const StrShift &second);
+  friend bool operator!= (const StrShift &first, const StrShift &second);
 
-  friend bool operator!= (const StrShift &first, const StrShift &second) {
-    string str_first(first.c_str());
-    string str_second(second.c_str());
-    return str_first != str_second;
-  }
-
+  // holder of the original string.
   string _str;
+  // the head of the represented string.
   int _head;
 };
 

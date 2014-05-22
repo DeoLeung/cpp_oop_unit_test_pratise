@@ -1,10 +1,6 @@
 /*
- * File:   change_alrogithm_test_main.cpp
  * Author: Deo Zhanzhao Liang <liangzhanzhao1985@gmail.com>
- *
- * Created on 22-May-2014, 10:18:25
  */
-
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>

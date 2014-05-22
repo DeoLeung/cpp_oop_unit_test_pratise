@@ -1,10 +1,6 @@
 /*
- * File:   change_alrogithm_test.cpp
  * Author: Deo Zhanzhao Liang <liangzhanzhao1985@gmail.com>
- *
- * Created on 22-May-2014, 10:18:24
  */
-
 #include "change_machine_test.h"
 
 #include <string>
@@ -37,6 +33,7 @@ void ChangeMachineTest::_assert_vectors(const vector<int> &expected,
 }
 
 void ChangeMachineTest::test_ChangeMachine() {
+  // check the default bill values set up properly
   const vector<int> golden = {100, 50, 20, 10, 5, 1};
   _assert_vectors(golden, _change_machine->get_denominations());
 }
@@ -49,6 +46,13 @@ void ChangeMachineTest::test_set_denominations() {
   CPPUNIT_ASSERT_EQUAL_MESSAGE(
       "Setting denominations to empty should fail",
       false, _change_machine->set_denominations(empty_input));
+  // Failure in setting denominations should not affect the original state.
+  _assert_vectors(golden, _change_machine->get_denominations());
+
+  vector<int> non_pos_input = {1, 0};
+  CPPUNIT_ASSERT_EQUAL_MESSAGE(
+      "Setting denominations with non-positive should fail",
+      false, _change_machine->set_denominations(non_pos_input));
   // Failure in setting denominations should not affect the original state.
   _assert_vectors(golden, _change_machine->get_denominations());
 

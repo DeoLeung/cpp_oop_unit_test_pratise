@@ -1,4 +1,27 @@
+/*
+ * Author: Deo Zhanzhao Liang <liangzhanzhao1985@gmail.com>
+ */
+#include <utility>
+
 #include "str_shift.h"
+
+void swap(StrShift &first, StrShift &second) {
+  using std::swap;
+  swap(first._str, second._str);
+  swap(first._head, second._head);
+};
+
+bool operator== (const StrShift &first, const StrShift &second) {
+  string str_first(first.c_str());
+  string str_second(second.c_str());
+  return str_first == str_second;
+}
+
+bool operator!= (const StrShift &first, const StrShift &second) {
+  string str_first(first.c_str());
+  string str_second(second.c_str());
+  return str_first != str_second;
+}
 
 const char *StrShift::c_str() const{
   string new_str;
@@ -13,9 +36,8 @@ const char *StrShift::c_str() const{
 const char *StrShift::operator<< (const unsigned int shift) {
   if (shift != 0 && !_str.empty()) {
     _head -= shift;
-    if (_head < 0) {
-      _head = _str.size() - (_head % _str.size());
-    }
+    // TODO: when comes to minus this seems to work but may be compiler depends.
+    _head %= _str.size();
   }
   return c_str();
 }
@@ -33,7 +55,8 @@ StrShift &StrShift::operator= (StrShift other) {
   return *this;
 }
 
+/*
 StrShift &StrShift::operator= (StrShift &&other) {
   swap(*this, other);
   return *this;
-}
+}*/

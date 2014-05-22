@@ -1,7 +1,8 @@
+/*
+ * Author: Deo Zhanzhao Liang <liangzhanzhao1985@gmail.com>
+ */
 #include "change_algorithm.h"
 
-// A naive implementation, which finds the maximum bills of the largest value
-// first. This requires the values are sorted in decending order.
 vector<int> *ChangeAlgorithm::minimum_bills_naive(
     const vector<int> &values, unsigned int change) {
   if (!change) {
@@ -25,7 +26,7 @@ vector<int> *ChangeAlgorithm::minimum_bills_naive(
     }
   }
   // If there's still changes left, it means it can't be fully changed, return a
-  // null ptr.
+  // nullptr.
   delete bills;
   return 0;
 }

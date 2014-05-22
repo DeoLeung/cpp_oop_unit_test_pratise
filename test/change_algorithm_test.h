@@ -1,10 +1,6 @@
 /*
- * File:   ChangeAlgorithmTest.h
  * Author: Deo Zhanzhao Liang <liangzhanzhao1985@gmail.com>
- *
- * Created on 22-May-2014, 10:18:24
  */
-
 #ifndef CHANGE_ALROGITHM_TEST_H
 #define	CHANGE_ALROGITHM_TEST_H
 
